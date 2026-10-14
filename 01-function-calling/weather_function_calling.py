@@ -9,12 +9,24 @@ Cách chạy:
     python weather_function_calling.py
 """
 
+import sys
+from pathlib import Path
+from dotenv import load_dotenv
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+# Nạp biến môi trường từ file .env ở thư mục gốc repo nếu có
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
 from google import genai
 from google.genai import types
 
+import os
+
 client = genai.Client()
 
-MODEL = "gemini-2.5-flash"
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
 
 SYSTEM_INSTRUCTION = (
     "Bạn là trợ lý thời tiết thân thiện, trả lời bằng tiếng Việt tự nhiên. "
